@@ -1,12 +1,18 @@
 local Players = game:GetService("Players")
+local Teams = game:GetService("Teams")
 
 local function highlightPlayer(player)
     local highlight = Instance.new("Highlight")
     highlight.Parent = player.Character
-    highlight.FillColor = Color3.fromRGB(255, 0, 0)
-    highlight.OutlineColor = Color3.fromRGB(0, 0, 255)
+    highlight.Color = player.TeamColor.Color
+    highlight.Adornee = player.Character:FindFirstChild("Head")
+    highlight.Enabled = false
 end
 
-for _, player in ipairs(Players:GetPlayers()) do
+for _, player in pairs(Players:GetPlayers()) do
     highlightPlayer(player)
 end
+
+Players.PlayerAdded:Connect(function(player)
+    highlightPlayer(player)
+end)
